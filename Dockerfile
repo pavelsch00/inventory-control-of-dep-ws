@@ -17,5 +17,4 @@ RUN dotnet publish "inventory-control-of-dep-api.csproj" -c Release -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet inventory-control-of-dep-api.dll
 ENTRYPOINT ["dotnet", "inventory-control-of-dep-api.dll"]
