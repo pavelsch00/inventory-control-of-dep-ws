@@ -14,7 +14,7 @@ WORKDIR "/src/inventory-control-of-dep-api/"
 RUN dotnet build "inventory-control-of-dep-api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "inventory-control-of-dep-api.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/inventory-control-of-dep-api/inventory-control-of-dep-api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
