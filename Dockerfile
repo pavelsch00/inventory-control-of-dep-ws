@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["src/inventory-control-of-dep-api/inventory-control-of-dep-api.csproj", "src/inventory-control-of-dep-api/"]
 RUN dotnet restore "src/inventory-control-of-dep-api/inventory-control-of-dep-api.csproj"
 COPY . .
-WORKDIR "/src/inventory-control-of-dep-api"
+WORKDIR "/src/inventory-control-of-dep-api/"
 RUN dotnet build "inventory-control-of-dep-api.csproj" -c Release -o /app/build
 
 FROM build AS publish
