@@ -5,9 +5,9 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS builds
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["inventory-control-of-dep-api/inventory-control-of-dep-api.csproj", "inventory-control-of-dep-api/"]
+COPY ["/src/inventory-control-of-dep-api/inventory-control-of-dep-api.csproj", "inventory-control-of-dep-api/"]
 RUN dotnet restore "inventory-control-of-dep-api/inventory-control-of-dep-api.csproj"
 COPY . .
 WORKDIR "src/inventory-control-of-dep-api/"
