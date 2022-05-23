@@ -16,3 +16,11 @@ jobs:
           heroku_app_name: "inventory-control-of-dep"
           heroku_email: "pshyshkavets@gmail.com"
           usedocker: true
+
+    - name: App Settings Variable Substitution
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: '${{env.DOTNET_ROOT}}/inventory-control-of-dep-api/appsettings.json'
+      env:
+        ConnectionStrings.DefaultConnection: ${{ secrets.CONNECTION_STRING }}
+        JwtTokenSettings.JwtSecretKey: ${{ secrets.JWT_SECRET_KEY }}

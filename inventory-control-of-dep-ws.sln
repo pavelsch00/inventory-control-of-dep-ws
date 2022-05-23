@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "inventory-control-of-dep-api", "src\inventory-control-of-dep-api\inventory-control-of-dep-api.csproj", "{AF3E9BF6-1C22-4E9B-9A0D-94AC2B56A7D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "inventory-control-of-dep-api", "src\inventory-control-of-dep-api\inventory-control-of-dep-api.csproj", "{AF3E9BF6-1C22-4E9B-9A0D-94AC2B56A7D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{817302E1-484A-41FA-8B09-A26249B93F97} = {817302E1-484A-41FA-8B09-A26249B93F97}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "inventory-control-of-dep-dal", "src\inventory-control-of-dep-dal\inventory-control-of-dep-dal.csproj", "{817302E1-484A-41FA-8B09-A26249B93F97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{AF3E9BF6-1C22-4E9B-9A0D-94AC2B56A7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF3E9BF6-1C22-4E9B-9A0D-94AC2B56A7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3E9BF6-1C22-4E9B-9A0D-94AC2B56A7D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{817302E1-484A-41FA-8B09-A26249B93F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{817302E1-484A-41FA-8B09-A26249B93F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{817302E1-484A-41FA-8B09-A26249B93F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{817302E1-484A-41FA-8B09-A26249B93F97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
