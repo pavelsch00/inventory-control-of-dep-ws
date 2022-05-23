@@ -21,4 +21,4 @@ jobs:
           files: '${{env.DOTNET_ROOT}}/src/inventory-control-of-dep-api/appsettings.json'
         env:
           ConnectionStrings.DefaultConnection: ${{secrets.CONNECTION_STRING}}
-          JwtTokenSettings.JwtSecretKey: ${{secrets.JWT_SECRET_KEY}
+          JwtTokenSettings.JwtSecretKey: ${{secrets.JWT_SECRET_KEY}}
