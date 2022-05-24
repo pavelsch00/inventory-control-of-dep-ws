@@ -88,6 +88,7 @@ namespace inventory_control_of_dep_api.Controllers
 
                 var model = _mapper.Map<InventoryBook>(request);
 
+                model.Id = id;
                 await _inventoryBookRepository.Update(model);
 
                 return NoContent();

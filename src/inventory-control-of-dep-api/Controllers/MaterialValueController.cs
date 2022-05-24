@@ -87,6 +87,7 @@ namespace inventory_control_of_dep_api.Controllers
 
                 var model = _mapper.Map<MaterialValue>(request);
 
+                model.Id = id;
                 await _materialValueRepository.Update(model);
 
                 return NoContent();
