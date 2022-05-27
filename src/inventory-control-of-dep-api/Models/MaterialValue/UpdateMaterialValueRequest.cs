@@ -4,7 +4,8 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
 {
     public class UpdateMaterialValueRequest
     {
-        public string? Description { get; set; }
+        [Required]
+        public string Description { get; set; }
 
         [Required]
         public int Price { get; set; }
@@ -12,17 +13,19 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
         [Required]
         public int CategoryId { get; set; }
 
-        public DateTime? DateOfIssue { get; set; }
+        [Required]
+        public DateTime DateOfIssue { get; set; }
 
-        public DateTime? WriteOffDate { get; set; }
+        [Required]
+        public DateTime WriteOffDate { get; set; }
 
-        public int? FactoryNumber { get; set; }
+        public string FactoryNumber { get; set; }
 
-        public int? InventoryNumber { get; set; }
+        public string InventoryNumber { get; set; }
 
-        public int? NomenclatureNumber { get; set; }
+        public string NomenclatureNumber { get; set; }
 
-        public int? PassportNumber { get; set; }
+        public string PassportNumber { get; set; }
 
         [Required]
         public int RoomId { get; set; }
