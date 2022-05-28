@@ -28,6 +28,9 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
         public string PassportNumber { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public int RoomId { get; set; }
     }
 }

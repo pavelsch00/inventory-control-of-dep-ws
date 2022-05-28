@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 using AutoMapper;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 using inventory_control_of_dep_api.Infrastructure.JwtTokenAuth;
 using inventory_control_of_dep_api.Infrastructure.Services.AuthorizationService;
@@ -15,6 +17,8 @@ using inventory_control_of_dep_api.Infrastructure.Services.AuthorizationServices
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.MaterialValueValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.UserValidators;
+using inventory_control_of_dep_api.Infrastructure.Utility;
+using inventory_control_of_dep_api.Infrastructure.Services.PDFService;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +93,12 @@ builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IMaterialValueValidator, MaterialValueValidator>();
 builder.Services.AddScoped<IInventoryBookValidator, InventoryBookValidator>();
 builder.Services.AddScoped<IUserValidator, UserValidator>();
+
+builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
+var context = new CustomAssemblyLoadContext();
+context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
 {

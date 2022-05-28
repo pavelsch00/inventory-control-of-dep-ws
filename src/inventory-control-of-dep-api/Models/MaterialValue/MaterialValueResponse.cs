@@ -23,5 +23,7 @@
         public string PassportNumber { get; set; }
 
         public int RoomId { get; set; }
+
+        public string Name { get; set; }
     }
 }
