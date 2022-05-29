@@ -1,8 +1,8 @@
-﻿using DinkToPdf;
-using DinkToPdf.Contracts;
-
+﻿
 using inventory_control_of_dep_dal.Domain;
 using inventory_control_of_dep_dal.Repository;
+using WkHtmlToPdfDotNet;
+using WkHtmlToPdfDotNet.Contracts;
 
 namespace inventory_control_of_dep_api.Infrastructure.Services.PDFService
 {

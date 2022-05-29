@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 using AutoMapper;
-using DinkToPdf.Contracts;
-using DinkToPdf;
-
 using inventory_control_of_dep_api.Infrastructure.JwtTokenAuth;
 using inventory_control_of_dep_api.Infrastructure.Services.AuthorizationService;
 using inventory_control_of_dep_api.Infrastructure.Services.JwtTokenServices;
@@ -18,6 +15,8 @@ using inventory_control_of_dep_api.Infrastructure.Services.Validators.MaterialVa
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.UserValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.PDFService;
+using WkHtmlToPdfDotNet.Contracts;
+using WkHtmlToPdfDotNet;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
