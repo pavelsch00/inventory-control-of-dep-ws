@@ -203,5 +203,35 @@ namespace inventory_control_of_dep_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("")]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserResponse>> GetAllUser()
+        {
+            try
+            {
+                var user = _userManager.Users.ToList();
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                var result = _mapper.Map<List<UserResponse>>(user);
+
+                foreach (var item in result)
+                {
+                    item.Roles = await _userManager.GetRolesAsync(user.Where(i => i.Id == item.Id).FirstOrDefault());
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
