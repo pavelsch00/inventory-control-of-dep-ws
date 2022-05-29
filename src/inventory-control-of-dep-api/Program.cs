@@ -96,9 +96,6 @@ builder.Services.AddScoped<IUserValidator, UserValidator>();
 
 builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
 
-var context = new CustomAssemblyLoadContext();
-context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
-
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
