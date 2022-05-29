@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <None Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Infrastructure\assets\styles.css" />
     <None Remove="libwkhtmltox.dll" />
     <None Remove="libwkhtmltox.dylib" />
