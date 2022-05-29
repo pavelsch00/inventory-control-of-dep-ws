@@ -6,9 +6,6 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["/src/inventory-control-of-dep-api/inventory-control-of-dep-api.csproj", "inventory-control-of-dep-api/"]
-COPY ["/src/inventory-control-of-dep-api/libwkhtmltox.dll", "inventory-control-of-dep-api/"]
-COPY ["/src/inventory-control-of-dep-api/libwkhtmltox.dylib", "inventory-control-of-dep-api/"]
-COPY ["/src/inventory-control-of-dep-api/libwkhtmltox.so", "inventory-control-of-dep-api/"]
 RUN dotnet restore "inventory-control-of-dep-api/inventory-control-of-dep-api.csproj"
 COPY . .
 WORKDIR "src/inventory-control-of-dep-api/"
