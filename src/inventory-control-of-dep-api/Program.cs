@@ -95,6 +95,7 @@ builder.Services.AddScoped<IInventoryBookValidator, InventoryBookValidator>();
 builder.Services.AddScoped<IUserValidator, UserValidator>();
 
 builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
+
 var context = new CustomAssemblyLoadContext();
 context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
