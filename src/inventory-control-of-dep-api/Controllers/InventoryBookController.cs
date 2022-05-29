@@ -18,11 +18,17 @@ namespace inventory_control_of_dep_api.Controllers
     public class InventoryBookController : ControllerBase
     {
         private readonly IRepository<InventoryBook> _inventoryBookRepository;
+        private readonly IRepository<MaterialValue> _materialValueRepository;
+        private readonly IRepository<OperationsType> _operationsTypeRepository;
+
         private readonly IMapper _mapper;
         private readonly IInventoryBookValidator _inventoryBookValidator;
         public InventoryBookController(IRepository<InventoryBook> inventoryBookRepository,
-            IMapper mapper, IInventoryBookValidator inventoryBookValidator)
+            IMapper mapper, IInventoryBookValidator inventoryBookValidator, IRepository<OperationsType> operationsTypeRepository,
+            IRepository<MaterialValue> materialValueRepository)
         {
+            _operationsTypeRepository = operationsTypeRepository ?? throw new ArgumentNullException(nameof(operationsTypeRepository));
+            _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
             _inventoryBookRepository = inventoryBookRepository ?? throw new ArgumentNullException(nameof(inventoryBookRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _inventoryBookValidator = inventoryBookValidator ?? throw new ArgumentNullException(nameof(inventoryBookValidator));
@@ -31,11 +37,20 @@ namespace inventory_control_of_dep_api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<InventoryBookResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public IActionResult GetAllInventoryBook()
+        public async Task<IActionResult> GetAllInventoryBook()
         {
             try
             {
                 var result = _mapper.Map<List<InventoryBookResponse>>(_inventoryBookRepository.GetAll());
+
+                foreach (var item in result)
+                {
+                    var materialValue = await _materialValueRepository.GetById(item.MaterialValueId);
+                    var operationsType = await _operationsTypeRepository.GetById(item.OperationTypeId);
+                    item.MaterialValueName = materialValue.Name;
+                    item.MaterialValuInventoryNumber = materialValue.InventoryNumber;
+                    item.OperationTypeName = operationsType.Name;
+                }
 
                 return Ok(result);
             }

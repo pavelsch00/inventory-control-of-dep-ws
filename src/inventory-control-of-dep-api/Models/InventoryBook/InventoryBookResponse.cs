@@ -6,9 +6,15 @@
 
         public int MaterialValueId { get; set; }
 
+        public string MaterialValueName { get; set; }
+
+        public string MaterialValuInventoryNumber { get; set; }
+
         public string UserId { get; set; }
 
         public int OperationTypeId { get; set; }
+
+        public string OperationTypeName { get; set; }
 
         public string Comment { get; set; }
 
