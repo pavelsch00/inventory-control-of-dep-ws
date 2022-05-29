@@ -204,6 +204,32 @@ namespace inventory_control_of_dep_api.Controllers
             }
         }
 
+        [HttpGet("getById/{id}")]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserResponse>> GetUserById([FromRoute] string id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                var result = _mapper.Map<UserResponse>(user);
+                result.Roles = await _userManager.GetRolesAsync(user);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
