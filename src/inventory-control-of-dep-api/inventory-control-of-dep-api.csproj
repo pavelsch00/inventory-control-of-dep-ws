@@ -25,7 +25,9 @@
     <Content Include="libwkhtmltox.dylib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libwkhtmltox.so" />
+    <Content Include="libwkhtmltox.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
