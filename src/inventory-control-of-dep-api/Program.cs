@@ -17,7 +17,6 @@ using inventory_control_of_dep_api.Infrastructure.Services.AuthorizationServices
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.MaterialValueValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.UserValidators;
-using inventory_control_of_dep_api.Infrastructure.Utility;
 using inventory_control_of_dep_api.Infrastructure.Services.PDFService;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
@@ -94,12 +93,11 @@ builder.Services.AddScoped<IMaterialValueValidator, MaterialValueValidator>();
 builder.Services.AddScoped<IInventoryBookValidator, InventoryBookValidator>();
 builder.Services.AddScoped<IUserValidator, UserValidator>();
 
-builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
-
-var context = new CustomAssemblyLoadContext();
-context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
+
 
 builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
 {

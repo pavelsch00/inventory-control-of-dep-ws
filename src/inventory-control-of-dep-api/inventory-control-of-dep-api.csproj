@@ -6,36 +6,12 @@
     <RootNamespace>inventory_control_of_dep_api</RootNamespace>
     <UserSecretsId>1ecf38e9-ca5b-455c-8468-413a16208b49</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-	 <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	  <DockerfileFile>../../Dockerfile</DockerfileFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Infrastructure\assets\styles.css" />
-    <None Remove="libwkhtmltox.dll" />
-    <None Remove="libwkhtmltox.dylib" />
-    <None Remove="libwkhtmltox.so" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Infrastructure\assets\styles.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.dylib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.so">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="DinkToPdf" Version="1.0.8" />
-    <PackageReference Include="DinkToPdfCopyDependencies" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
@@ -46,6 +22,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="RndUsr0.DinkToPdf" Version="1.0.9-20190207.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
