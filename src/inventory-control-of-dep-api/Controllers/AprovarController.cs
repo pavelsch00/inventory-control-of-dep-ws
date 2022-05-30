@@ -35,14 +35,14 @@ namespace inventory_control_of_dep_api.Controllers
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
-        [HttpGet]
+        [HttpGet("userId/{id}")]
         [ProducesResponseType(typeof(IEnumerable<AprovarResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public IActionResult GetAllAprovar()
+        public IActionResult GetAllAprovar(string id)
         {
             try
             {
-                var result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll());
+                var result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll().Where(i => i.UserId == id).ToList());
 
                 return Ok(result);
             }
