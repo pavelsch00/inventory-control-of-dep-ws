@@ -182,6 +182,12 @@ namespace inventory_control_of_dep_api.Controllers
                     return NotFound();
                 }
 
+                var materialValue = await _materialValueRepository.GetById(result.MaterialValueId);
+                var operationsType = await _operationsTypeRepository.GetById(result.OperationTypeId);
+                result.MaterialValueName = materialValue.Name;
+                result.MaterialValuInventoryNumber = materialValue.InventoryNumber;
+                result.OperationTypeName = operationsType.Name;
+
                 return Ok(result);
             }
             catch (Exception ex)
