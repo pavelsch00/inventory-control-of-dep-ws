@@ -1,7 +1,8 @@
-﻿using inventory_control_of_dep_api.Infrastructure.CustomExaptions;
+﻿using Microsoft.AspNetCore.Identity;
+
+using inventory_control_of_dep_api.Infrastructure.CustomExaptions;
 using inventory_control_of_dep_dal.Domain;
 using inventory_control_of_dep_dal.Repository;
-using Microsoft.AspNetCore.Identity;
 
 namespace inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators
 {

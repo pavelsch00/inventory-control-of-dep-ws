@@ -8,6 +8,7 @@ using inventory_control_of_dep_api.Models.InventoryBook;
 using inventory_control_of_dep_dal.Domain;
 using inventory_control_of_dep_dal.Repository;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
+using Microsoft.AspNetCore.Identity;
 
 namespace inventory_control_of_dep_api.Controllers
 {
@@ -20,18 +21,25 @@ namespace inventory_control_of_dep_api.Controllers
         private readonly IRepository<InventoryBook> _inventoryBookRepository;
         private readonly IRepository<MaterialValue> _materialValueRepository;
         private readonly IRepository<OperationsType> _operationsTypeRepository;
+        private readonly IRepository<Aprovar> _aprovarRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         private readonly IMapper _mapper;
         private readonly IInventoryBookValidator _inventoryBookValidator;
         public InventoryBookController(IRepository<InventoryBook> inventoryBookRepository,
             IMapper mapper, IInventoryBookValidator inventoryBookValidator, IRepository<OperationsType> operationsTypeRepository,
-            IRepository<MaterialValue> materialValueRepository)
+            IRepository<MaterialValue> materialValueRepository, IRepository<Aprovar> aprovarRepository, UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _operationsTypeRepository = operationsTypeRepository ?? throw new ArgumentNullException(nameof(operationsTypeRepository));
             _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
             _inventoryBookRepository = inventoryBookRepository ?? throw new ArgumentNullException(nameof(inventoryBookRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _inventoryBookValidator = inventoryBookValidator ?? throw new ArgumentNullException(nameof(inventoryBookValidator));
+            _aprovarRepository = aprovarRepository ?? throw new ArgumentNullException(nameof(aprovarRepository));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
         [HttpGet]
@@ -74,6 +82,26 @@ namespace inventory_control_of_dep_api.Controllers
                 var model = _mapper.Map<InventoryBook>(request);
 
                 var result = await _inventoryBookRepository.Create(model);
+
+                var user = _userManager.Users.ToList();
+                var aproval = new Aprovar();
+                foreach (var item in user)
+                {
+                    var roles = await _userManager.GetRolesAsync(item);
+                    if (roles.Contains("DepHead") || roles.Contains("PurchaseDepartment"))
+                    {
+                        aproval = new Aprovar
+                        {
+                            InventoryBookId = result,
+                            IsAprove = false,
+                            UserId = item.Id
+                        };
+
+                        await _aprovarRepository.Create(aproval);
+                    } 
+                }
+
+
 
                 return CreatedAtAction(nameof(CreateInventoryBook), new { id = result });
             }

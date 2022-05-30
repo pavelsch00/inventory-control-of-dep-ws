@@ -18,6 +18,7 @@ namespace inventory_control_of_dep_dal.Domain
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Room> Room { get; set; }
         public virtual DbSet<InventoryBook> InventoryBook { get; set; }
+        public virtual DbSet<Aprovar> Aprovar { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +33,7 @@ namespace inventory_control_of_dep_dal.Domain
             modelBuilder.Entity<Position>().ToTable("Position");
             modelBuilder.Entity<Room>().ToTable("Room");
             modelBuilder.Entity<InventoryBook>().ToTable("InventoryBook");
+            modelBuilder.Entity<Aprovar>().ToTable("Aprovar");
         }
     }
 }

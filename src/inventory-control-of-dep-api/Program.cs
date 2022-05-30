@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 using AutoMapper;
+using WkHtmlToPdfDotNet.Contracts;
+using WkHtmlToPdfDotNet;
+
 using inventory_control_of_dep_api.Infrastructure.JwtTokenAuth;
 using inventory_control_of_dep_api.Infrastructure.Services.AuthorizationService;
 using inventory_control_of_dep_api.Infrastructure.Services.JwtTokenServices;
@@ -15,8 +18,7 @@ using inventory_control_of_dep_api.Infrastructure.Services.Validators.MaterialVa
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.UserValidators;
 using inventory_control_of_dep_api.Infrastructure.Services.PDFService;
-using WkHtmlToPdfDotNet.Contracts;
-using WkHtmlToPdfDotNet;
+using inventory_control_of_dep_api.Infrastructure.Services.Validators.AprovarValidators;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -91,12 +93,11 @@ builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IMaterialValueValidator, MaterialValueValidator>();
 builder.Services.AddScoped<IInventoryBookValidator, InventoryBookValidator>();
 builder.Services.AddScoped<IUserValidator, UserValidator>();
-
+builder.Services.AddScoped<IAprovarValidator, AprovarValidator>();
 
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
-
 
 builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
 {
@@ -109,7 +110,8 @@ builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
     cfg.AddProfile(new InventoryBookMapperProfile());
     cfg.AddProfile(new MaterialValueMapperProfile());
     cfg.AddProfile(new UserMapperProfile());
-    cfg.AddProfile(new AuthorizationMapperProfile());
+    cfg.AddProfile(new AuthorizationMapperProfile()); 
+    cfg.AddProfile(new AprovarMapperProfile());
 }).CreateMapper());
 
    WebApplication? app = builder.Build();

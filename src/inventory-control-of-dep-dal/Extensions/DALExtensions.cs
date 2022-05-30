@@ -22,7 +22,7 @@ namespace inventory_control_of_dep_dal.Extensions
             services.AddScoped<IRepository<OperationsType>, Repository<OperationsType>>();
             services.AddScoped<IRepository<Position>, Repository<Position>>();
             services.AddScoped<IRepository<Room>, Repository<Room>>();
-
+            services.AddScoped<IRepository<Aprovar>, Repository<Aprovar>>();
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
