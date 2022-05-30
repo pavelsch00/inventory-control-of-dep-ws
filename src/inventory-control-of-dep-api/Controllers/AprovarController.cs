@@ -163,6 +163,11 @@ namespace inventory_control_of_dep_api.Controllers
                 var result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll().ToList().Where(i => i.InventoryBookId == id).ToList());
                 bool flag = true;
 
+                if (result.Count() == 0)
+                {
+                    flag = false;
+                }
+
                 foreach (var item in result)
                 {
                     var user = await _userManager.FindByIdAsync(item.UserId);
