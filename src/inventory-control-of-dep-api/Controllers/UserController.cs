@@ -13,7 +13,7 @@ namespace inventory_control_of_dep_api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(Policy = "ShouldContainAdminRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
+    [Authorize(Policy = "ShouldContainAnyRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : ControllerBase
     {

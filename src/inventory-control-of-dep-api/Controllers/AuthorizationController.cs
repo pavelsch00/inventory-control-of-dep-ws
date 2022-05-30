@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using AutoMapper;
-
 using inventory_control_of_dep_api.Infrastructure.Services.JwtTokenServices;
 using inventory_control_of_dep_dal.Domain;
 using inventory_control_of_dep_api.Models.Authorization;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.UserValidators;
 using IAuthorizationService = inventory_control_of_dep_api.Infrastructure.Services.AuthorizationService.IAuthorizationService;
+using inventory_control_of_dep_api.Infrastructure.JwtTokenAuth;
 
 namespace inventory_control_of_dep_api.Controllers
 {
@@ -34,7 +33,7 @@ namespace inventory_control_of_dep_api.Controllers
         }
 
         [HttpPost("registration")]
-        [AllowAnonymous]
+        [Authorize(Policy = "ShouldContainAnyRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Registration(RegistrationRequest request)
@@ -82,6 +81,7 @@ namespace inventory_control_of_dep_api.Controllers
         }
 
         [HttpPost("logout")]
+        [Authorize(Policy = "ShouldContainAnyRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Logout()
@@ -98,6 +98,7 @@ namespace inventory_control_of_dep_api.Controllers
         }
 
         [HttpGet("get_roles")]
+        [Authorize(Policy = "ShouldContainAnyRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
         [ProducesResponseType(typeof(RolesResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public IActionResult GetRoles()
@@ -115,7 +116,7 @@ namespace inventory_control_of_dep_api.Controllers
         }
 
         [HttpGet("validate_token")]
-        [AllowAnonymous]
+        [Authorize(Policy = "ShouldContainAnyRole", AuthenticationSchemes = JwtAutheticationConstants.SchemeName)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult ValidateToken(string token)
