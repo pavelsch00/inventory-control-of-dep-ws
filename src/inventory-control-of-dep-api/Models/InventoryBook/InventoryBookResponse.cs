@@ -18,6 +18,12 @@
 
         public string Comment { get; set; }
 
+        public string RoomNumber { get; set; }
+        
+        public string NomenclatureNumber { get; set; }
+
+        public string CategoryName { get; set; }
+
         public DateTime Date { get; set; }
     }
 }

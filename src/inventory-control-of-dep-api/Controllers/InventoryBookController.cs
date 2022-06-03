@@ -22,6 +22,9 @@ namespace inventory_control_of_dep_api.Controllers
         private readonly IRepository<MaterialValue> _materialValueRepository;
         private readonly IRepository<OperationsType> _operationsTypeRepository;
         private readonly IRepository<Aprovar> _aprovarRepository;
+        private readonly IRepository<Room> _roomRepository;
+        private readonly IRepository<Category> _categoryRepository;
+
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
@@ -30,7 +33,7 @@ namespace inventory_control_of_dep_api.Controllers
         public InventoryBookController(IRepository<InventoryBook> inventoryBookRepository,
             IMapper mapper, IInventoryBookValidator inventoryBookValidator, IRepository<OperationsType> operationsTypeRepository,
             IRepository<MaterialValue> materialValueRepository, IRepository<Aprovar> aprovarRepository, UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager, IRepository<Room> roomRepository, IRepository<Category> categoryRepository)
         {
             _operationsTypeRepository = operationsTypeRepository ?? throw new ArgumentNullException(nameof(operationsTypeRepository));
             _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
@@ -40,6 +43,8 @@ namespace inventory_control_of_dep_api.Controllers
             _aprovarRepository = aprovarRepository ?? throw new ArgumentNullException(nameof(aprovarRepository));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            _roomRepository = roomRepository ?? throw new ArgumentNullException(nameof(roomRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
         [HttpGet]
@@ -55,9 +60,14 @@ namespace inventory_control_of_dep_api.Controllers
                 {
                     var materialValue = await _materialValueRepository.GetById(item.MaterialValueId);
                     var operationsType = await _operationsTypeRepository.GetById(item.OperationTypeId);
+                    var room = await _roomRepository.GetById(materialValue.RoomId);
+                    var categoty = await _categoryRepository.GetById(materialValue.CategoryId);
                     item.MaterialValueName = materialValue.Name;
                     item.MaterialValuInventoryNumber = materialValue.InventoryNumber;
                     item.OperationTypeName = operationsType.Name;
+                    item.RoomNumber = room.Number;
+                    item.NomenclatureNumber = materialValue.NomenclatureNumber;
+                    item.CategoryName = categoty.Name;
                 }
 
                 return Ok(result);
