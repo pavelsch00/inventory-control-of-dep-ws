@@ -29,6 +29,8 @@ namespace inventory_control_of_dep_dal.Domain
 
         public string PassportNumber { get; set; }
 
+        public bool IsActive { get; set; }
+
         public int RoomId { get; set; }
     }
 }

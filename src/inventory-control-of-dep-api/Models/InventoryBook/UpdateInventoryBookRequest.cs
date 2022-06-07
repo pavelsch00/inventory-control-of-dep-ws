@@ -18,5 +18,7 @@ namespace inventory_control_of_dep_api.Models.InventoryBook
 
         [Required]
         public DateTime Date { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

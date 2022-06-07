@@ -111,7 +111,9 @@ namespace inventory_control_of_dep_api.Controllers
                     } 
                 }
 
-
+                var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
+                materialValue.IsActive = true;
+                await _materialValueRepository.Update(materialValue);
 
                 return CreatedAtAction(nameof(CreateInventoryBook), new { id = result });
             }
@@ -143,6 +145,10 @@ namespace inventory_control_of_dep_api.Controllers
 
                 model.Id = id;
                 await _inventoryBookRepository.Update(model);
+
+                var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
+                materialValue.IsActive = request.IsActive;
+                await _materialValueRepository.Update(materialValue);
 
                 return NoContent();
             }

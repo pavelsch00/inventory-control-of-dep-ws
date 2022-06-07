@@ -32,5 +32,7 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
 
         [Required]
         public int RoomId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

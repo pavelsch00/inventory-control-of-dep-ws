@@ -27,6 +27,8 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
 
         public string PassportNumber { get; set; }
 
+        public bool IsActive { get; set; }
+
         [Required]
         public string Name { get; set; }
 
