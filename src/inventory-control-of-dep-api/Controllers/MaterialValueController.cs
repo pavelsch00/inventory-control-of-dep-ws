@@ -36,7 +36,7 @@ namespace inventory_control_of_dep_api.Controllers
         {
             try
             {
-                var result = _mapper.Map<List<MaterialValueResponse>>(_materialValueRepository.GetAll()).Select(m => m.IsActive == false);
+                var result = _mapper.Map<List<MaterialValueResponse>>(_materialValueRepository.GetAll()).Where(m => m.IsActive == false);
 
                 return Ok(result);
             }

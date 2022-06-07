@@ -146,9 +146,14 @@ namespace inventory_control_of_dep_api.Controllers
                 model.Id = id;
                 await _inventoryBookRepository.Update(model);
 
-                var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
-                materialValue.IsActive = request.IsActive;
-                await _materialValueRepository.Update(materialValue);
+                var operationsType = await _operationsTypeRepository.GetById(request.OperationTypeId);
+
+                if (operationsType.Name == "Списание")
+                {
+                    var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
+                    materialValue.IsActive = false;
+                    await _materialValueRepository.Update(materialValue);
+                }
 
                 return NoContent();
             }
