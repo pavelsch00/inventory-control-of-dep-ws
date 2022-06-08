@@ -13,7 +13,6 @@ namespace inventory_control_of_dep_api.Models.InventoryBook
         [Required]
         public int OperationTypeId { get; set; }
 
-        [Required]
         public string Comment { get; set; }
 
         [Required]
