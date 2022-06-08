@@ -9,7 +9,6 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public int Price { get; set; }
 
         [Required]
