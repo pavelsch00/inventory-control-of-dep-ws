@@ -113,6 +113,8 @@ namespace inventory_control_of_dep_api.Controllers
 
                 var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
                 materialValue.IsActive = true;
+                materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
+                materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
                 await _materialValueRepository.Update(materialValue);
 
                 return CreatedAtAction(nameof(CreateInventoryBook), new { id = result });
@@ -152,6 +154,8 @@ namespace inventory_control_of_dep_api.Controllers
                 {
                     var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
                     materialValue.IsActive = false;
+                    materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
+                    materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
                     await _materialValueRepository.Update(materialValue);
                 }
 

@@ -57,6 +57,8 @@ namespace inventory_control_of_dep_api.Controllers
                 await _materialValueValidator.Validate(request.CategoryId, request.RoomId);
 
                 var model = _mapper.Map<MaterialValue>(request);
+                model.DateOfIssue = model.DateOfIssue.ToUniversalTime();
+                model.WriteOffDate = model.WriteOffDate.ToUniversalTime();
 
                 var result = await _materialValueRepository.Create(model);
 
@@ -88,6 +90,9 @@ namespace inventory_control_of_dep_api.Controllers
                 var model = _mapper.Map<MaterialValue>(request);
 
                 model.Id = id;
+                model.DateOfIssue = model.DateOfIssue.ToUniversalTime();
+                model.WriteOffDate = model.WriteOffDate.ToUniversalTime();
+
                 await _materialValueRepository.Update(model);
 
                 return NoContent();
