@@ -38,11 +38,19 @@ namespace inventory_control_of_dep_api.Controllers
         [HttpGet("userId/{id}")]
         [ProducesResponseType(typeof(IEnumerable<AprovarResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public IActionResult GetAllAprovar(string id)
+        public async Task<IActionResult> GetAllAprovar(string id)
         {
             try
             {
-                var result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll().Where(i => i.UserId == id).ToList());
+                var user = await _userManager.FindByIdAsync(id);
+                var roles = await _userManager.GetRolesAsync(user);
+                var result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll()
+                    .GroupBy(p => p.InventoryBookId).Select(g => g.First()).ToList());
+
+                if (!roles.Contains("MaterialPerson"))
+                {
+                    result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll().Where(i => i.UserId == id).ToList());
+                }
 
                 return Ok(result);
             }
