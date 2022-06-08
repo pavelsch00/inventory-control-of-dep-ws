@@ -24,6 +24,8 @@
 
         public string CategoryName { get; set; }
 
+        public bool IsAprove { get; set; }
+
         public DateTime Date { get; set; }
     }
 }

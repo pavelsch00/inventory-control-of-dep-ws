@@ -9,6 +9,7 @@ using inventory_control_of_dep_dal.Domain;
 using inventory_control_of_dep_dal.Repository;
 using inventory_control_of_dep_api.Infrastructure.Services.Validators.InventoryBookValidators;
 using Microsoft.AspNetCore.Identity;
+using inventory_control_of_dep_api.Models.Aprovar;
 
 namespace inventory_control_of_dep_api.Controllers
 {
@@ -62,12 +63,14 @@ namespace inventory_control_of_dep_api.Controllers
                     var operationsType = await _operationsTypeRepository.GetById(item.OperationTypeId);
                     var room = await _roomRepository.GetById(materialValue.RoomId);
                     var categoty = await _categoryRepository.GetById(materialValue.CategoryId);
+
                     item.MaterialValueName = materialValue.Name;
                     item.MaterialValuInventoryNumber = materialValue.InventoryNumber;
                     item.OperationTypeName = operationsType.Name;
                     item.RoomNumber = room.Number;
                     item.NomenclatureNumber = materialValue.NomenclatureNumber;
                     item.CategoryName = categoty.Name;
+                    item.IsAprove = _aprovarRepository.GetAll().ToList().Where(i => i.InventoryBookId == item.Id).All(i => i.IsAprove == true);
                 }
 
                 return Ok(result);
