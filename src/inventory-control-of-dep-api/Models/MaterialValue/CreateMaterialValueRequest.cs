@@ -4,7 +4,6 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
 {
     public class CreateMaterialValueRequest
     {
-        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -16,10 +15,8 @@ namespace inventory_control_of_dep_api.Models.MaterialValue
         [Required]
         public int CategoryId { get; set; }
 
-        [Required]
         public DateTime DateOfIssue { get; set; }
 
-        [Required]
         public DateTime WriteOffDate { get; set; }
 
         public string FactoryNumber { get; set; }
