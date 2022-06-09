@@ -21,6 +21,6 @@ table th {
     color: white;
 }
 
-table td {
-    padding-left: 10px;
+.padding {
+    padding-left: 15px;
 }

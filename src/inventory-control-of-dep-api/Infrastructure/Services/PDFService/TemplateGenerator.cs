@@ -29,7 +29,7 @@ namespace inventory_control_of_dep_api.Infrastructure.Services.PDFService
             {
                 sb.AppendFormat(@"<tr>
                                     <td>{0}</td>
-                                    <td>{1}</td>
+                                    <td class='padding'>{1}</td>
                                     <td>{2}</td>
                                     <td>{3}</td>
                                     <td>{4}</td>
