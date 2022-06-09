@@ -19,6 +19,12 @@ namespace inventory_control_of_dep_api.Controllers
     public class AprovarController : ControllerBase
     {
         private readonly IRepository<Aprovar> _aprovarRepository;
+        private readonly IRepository<MaterialValue> _materialValueRepository;
+        private readonly IRepository<InventoryBook> _inventoryBookRepository;
+        private readonly IRepository<OperationsType> _operationsTypeRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Room> _roomRepository;
+
         private readonly IMapper _mapper;
         private readonly IAprovarValidator _aprovarValidator;
         private readonly UserManager<User> _userManager;
@@ -26,13 +32,21 @@ namespace inventory_control_of_dep_api.Controllers
 
         public AprovarController(IRepository<Aprovar> aprovarRepository,
             IMapper mapper, IAprovarValidator aprovarValidator, UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager, IRepository<MaterialValue> materialValueRepository,
+            IRepository<InventoryBook> inventoryBookRepository, IRepository<OperationsType> operationsTypeRepository,
+            IRepository<Category> categoryRepository, IRepository<Room> roomRepository)
         {
             _aprovarRepository = aprovarRepository ?? throw new ArgumentNullException(nameof(aprovarRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _aprovarValidator = aprovarValidator ?? throw new ArgumentNullException(nameof(aprovarValidator));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+
+            _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
+            _inventoryBookRepository = inventoryBookRepository ?? throw new ArgumentNullException(nameof(inventoryBookRepository));
+            _operationsTypeRepository = operationsTypeRepository ?? throw new ArgumentNullException(nameof(operationsTypeRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
+            _roomRepository = roomRepository ?? throw new ArgumentNullException(nameof(roomRepository));
         }
 
         [HttpGet("userId/{id}")]
@@ -50,6 +64,24 @@ namespace inventory_control_of_dep_api.Controllers
                 if (!roles.Contains("MaterialPerson"))
                 {
                     result = _mapper.Map<List<AprovarResponse>>(_aprovarRepository.GetAll().Where(i => i.UserId == id).ToList());
+                }
+
+                foreach (var item in result)
+                {
+                    var inventoryBook = await _inventoryBookRepository.GetById(item.InventoryBookId);
+                    var materialValue = await _materialValueRepository.GetById(inventoryBook.MaterialValueId);
+                    var operationsType = await _operationsTypeRepository.GetById(inventoryBook.OperationTypeId);
+                    var category = await _categoryRepository.GetById(materialValue.CategoryId);
+                    var room = await _roomRepository.GetById(materialValue.RoomId);
+                    
+                    item.MaterialValueName = materialValue.Name;
+                    item.OperationTypeName = operationsType.Name;
+                    item.CategoryName = category.Name;
+                    item.RoomNumber = room.Number;
+                    if (roles.Contains("MaterialPerson"))
+                    {
+                        item.IsAprove = _aprovarRepository.GetAll().ToList().Where(i => i.InventoryBookId == item.InventoryBookId).All(i => i.IsAprove == true);
+                    }
                 }
 
                 return Ok(result);

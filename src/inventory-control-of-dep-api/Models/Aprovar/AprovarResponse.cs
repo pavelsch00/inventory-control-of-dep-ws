@@ -9,5 +9,13 @@
         public string UserId { get; set; }
 
         public bool IsAprove { get; set; }
+
+        public string MaterialValueName { get; set; }
+
+        public string RoomNumber { get; set; }
+
+        public string CategoryName { get; set; }
+
+        public string OperationTypeName { get; set; }
     }
 }
