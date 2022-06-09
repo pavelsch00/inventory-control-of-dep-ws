@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using inventory_control_of_dep_api.Infrastructure.Services.PDFService;
+using inventory_control_of_dep_api.Models.InventoryBook;
 
 namespace inventory_control_of_dep_api.Controllers
 {
@@ -16,12 +17,12 @@ namespace inventory_control_of_dep_api.Controllers
             _pdfCreatorService = pdfCreatorService ?? throw new ArgumentNullException(nameof(pdfCreatorService));
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<FileContentResult>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public IActionResult CreatePDF()
+        public IActionResult CreatePDF([FromBody] List<InventoryBookResponse> request)
         {
-            return File(_pdfCreatorService.CreatePdf(), "application/pdf");
+            return File(_pdfCreatorService.CreatePdf(request), "application/pdf");
         }
     }
 }

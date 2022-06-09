@@ -1,6 +1,6 @@
 ﻿
-using inventory_control_of_dep_dal.Domain;
-using inventory_control_of_dep_dal.Repository;
+using inventory_control_of_dep_api.Models.InventoryBook;
+
 using WkHtmlToPdfDotNet;
 using WkHtmlToPdfDotNet.Contracts;
 
@@ -9,15 +9,13 @@ namespace inventory_control_of_dep_api.Infrastructure.Services.PDFService
     public class PdfCreatorService : IPdfCreatorService
     {
         private readonly IConverter _converter;
-        private readonly IRepository<MaterialValue> _materialValueRepository;
 
-        public PdfCreatorService(IConverter converter, IRepository<MaterialValue> materialValueRepository)
+        public PdfCreatorService(IConverter converter)
         {
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
-            _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
         }
 
-        public byte[] CreatePdf()
+        public byte[] CreatePdf(List<InventoryBookResponse> request)
         {
             var globalSettings = new GlobalSettings
             {
@@ -30,10 +28,9 @@ namespace inventory_control_of_dep_api.Infrastructure.Services.PDFService
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = TemplateGenerator.GetHTMLString(_materialValueRepository.GetAll().ToList()),
+                HtmlContent = TemplateGenerator.GetHTMLString(request),
                 WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
-                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
+                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Страница [page] из [toPage]", Line = true }
             };
             var pdf = new HtmlToPdfDocument()
             {
