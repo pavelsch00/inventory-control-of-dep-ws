@@ -18,25 +18,40 @@ namespace inventory_control_of_dep_api.Controllers
     public class MaterialValueController : ControllerBase
     {
         private readonly IRepository<MaterialValue> _materialValueRepository;
+        private readonly IRepository<Room> _roomRepository;
+        private readonly IRepository<Category> _categoryRepository;
+
         private readonly IMapper _mapper;
         private readonly IMaterialValueValidator _materialValueValidator;
 
         public MaterialValueController(IRepository<MaterialValue> materialValueRepository, 
-            IMapper mapper, IMaterialValueValidator materialValueValidator)
+            IMapper mapper, IMaterialValueValidator materialValueValidator,
+            IRepository<Room> roomRepository, IRepository<Category> categoryRepository)
         {
             _materialValueRepository = materialValueRepository ?? throw new ArgumentNullException(nameof(materialValueRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _materialValueValidator = materialValueValidator ?? throw new ArgumentNullException(nameof(materialValueValidator));
+            _roomRepository = roomRepository ?? throw new ArgumentNullException(nameof(roomRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<MaterialValueResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public IActionResult GetAllMaterialValue()
+        public async Task<IActionResult> GetAllMaterialValue()
         {
             try
             {
                 var result = _mapper.Map<List<MaterialValueResponse>>(_materialValueRepository.GetAll()).Where(m => m.IsActive == false);
+
+                foreach (var item in result)
+                {
+                    var room = await _roomRepository.GetById(item.RoomId);
+                    var categoty = await _categoryRepository.GetById(item.CategoryId);
+
+                    item.RoomNumber = room.Number;
+                    item.CategoryName = categoty.Name;
+                }
 
                 return Ok(result);
             }

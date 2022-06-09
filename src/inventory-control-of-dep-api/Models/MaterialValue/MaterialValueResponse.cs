@@ -27,5 +27,9 @@
         public string Name { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string RoomNumber { get; set; }
+
+        public string CategoryName { get; set; }
     }
 }
