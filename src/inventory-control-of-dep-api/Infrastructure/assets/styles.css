@@ -20,3 +20,7 @@ table th {
     background-color: green;
     color: white;
 }
+
+table td {
+    padding-left: 10px;
+}
