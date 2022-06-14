@@ -15,5 +15,7 @@ namespace inventory_control_of_dep_dal.Domain
         public int FacultyId { get; set; }
 
         public int DepartmentId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

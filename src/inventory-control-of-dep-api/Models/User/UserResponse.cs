@@ -17,5 +17,15 @@
         public int? FacultyId { get; set; }
 
         public int? DepartmentId { get; set; }
+
+        public string PositionName { get; set; }
+
+        public string FacultyName { get; set; }
+
+        public string DepartmentName { get; set; }
+
+        public string Email { get; set; }
+        
+        public bool IsActive { get; set; }
     }
 }

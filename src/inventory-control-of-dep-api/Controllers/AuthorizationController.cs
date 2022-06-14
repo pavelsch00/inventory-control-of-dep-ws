@@ -74,7 +74,10 @@ namespace inventory_control_of_dep_api.Controllers
                 var user = await _userManager.FindByNameAsync(request.Email);
                 var roles = await _userManager.GetRolesAsync(user);
 
-                return Ok(_jwtTokenService.GetToken(user, roles));
+                if(user.IsActive)
+                {
+                    return Ok(_jwtTokenService.GetToken(user, roles));
+                }              
             }
 
             return Forbid();
