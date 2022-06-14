@@ -75,11 +75,17 @@ namespace inventory_control_of_dep_api.Controllers
                     return NotFound();
                 }
 
-                var model = _mapper.Map<User>(request);
+                var flag = await _userManager.ChangePasswordAsync(result, request.CurrentPassword, request.NewPassword);
 
-                await _userManager.ChangePasswordAsync(model, request.NewPassword, request.NewPassword);
-
-                return NoContent();
+                if (flag.Succeeded)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest("Passwords do not match");
+                }
+                
             }
             catch (Exception ex)
             {
