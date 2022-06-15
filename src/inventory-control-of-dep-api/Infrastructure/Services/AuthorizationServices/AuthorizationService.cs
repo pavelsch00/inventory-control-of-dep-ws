@@ -33,7 +33,8 @@ namespace inventory_control_of_dep_api.Infrastructure.Services.AuthorizationServ
                 Surname = request.Surname,
                 PositionId = request.PositionId,
                 DepartmentId = request.DepartmentId,
-                FacultyId = request.FacultyId
+                FacultyId = request.FacultyId,
+                IsActive = true
             };
 
             await _userManager.CreateAsync(user, request.Password);
