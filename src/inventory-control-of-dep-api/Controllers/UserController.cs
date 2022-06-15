@@ -59,9 +59,14 @@ namespace inventory_control_of_dep_api.Controllers
 
                 await _userValidator.Validate(request.PositionId, request.FacultyId, request.DepartmentId);
 
-                var model = _mapper.Map<User>(request);
+                result.Name = request.Name;
+                result.LastName = request.LastName;
+                result.Surname = request.Surname;
+                result.DepartmentId = request.DepartmentId;
+                result.PositionId = request.PositionId;
+                result.FacultyId = request.FacultyId;
 
-                await _userManager.UpdateAsync(model);
+                var test = await _userManager.UpdateAsync(result);
 
                 return NoContent();
             }
