@@ -71,6 +71,14 @@ namespace inventory_control_of_dep_api.Controllers
                     item.NomenclatureNumber = materialValue.NomenclatureNumber;
                     item.CategoryName = categoty.Name;
                     item.IsAprove = _aprovarRepository.GetAll().ToList().Where(i => i.InventoryBookId == item.Id).All(i => i.IsAprove == true);
+
+                    if (item.IsAprove && item.OperationTypeName == "Списание")
+                    {
+                        materialValue.IsActive = false;
+                        materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
+                        materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
+                        await _materialValueRepository.Update(materialValue);
+                    }
                 }
 
                 return Ok(result);
@@ -156,7 +164,7 @@ namespace inventory_control_of_dep_api.Controllers
                 if (operationsType.Name == "Списание")
                 {
                     var materialValue = await _materialValueRepository.GetById(request.MaterialValueId);
-                    materialValue.IsActive = false;
+                    materialValue.IsActive = true;
                     materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
                     materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
                     await _materialValueRepository.Update(materialValue);
@@ -201,6 +209,13 @@ namespace inventory_control_of_dep_api.Controllers
                 {
                     return NotFound();
                 }
+
+                var materialValue = await _materialValueRepository.GetById(result.MaterialValueId);
+                materialValue.IsActive = false;
+                materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
+                materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
+
+                await _materialValueRepository.Update(materialValue);
 
                 await _inventoryBookRepository.Delete(id);
 
