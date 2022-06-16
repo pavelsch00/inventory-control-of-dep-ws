@@ -160,6 +160,21 @@ namespace inventory_control_of_dep_api.Controllers
                     materialValue.DateOfIssue = materialValue.DateOfIssue.ToUniversalTime();
                     materialValue.WriteOffDate = materialValue.WriteOffDate.ToUniversalTime();
                     await _materialValueRepository.Update(materialValue);
+
+                    var user = _userManager.Users.ToList();
+
+                    foreach (var item in user)
+                    {
+                        var roles = await _userManager.GetRolesAsync(item);
+                        if (roles.Contains("DepHead") || roles.Contains("PurchaseDepartment"))
+                        {
+                            var aproval = _aprovarRepository.GetAll().Where(a => a.InventoryBookId == id && a.UserId == item.Id).FirstOrDefault();
+
+                            aproval.IsAprove = false;
+
+                            await _aprovarRepository.Update(aproval);
+                        }
+                    }
                 }
 
                 return NoContent();

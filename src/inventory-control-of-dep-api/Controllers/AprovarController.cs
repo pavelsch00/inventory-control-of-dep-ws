@@ -80,7 +80,8 @@ namespace inventory_control_of_dep_api.Controllers
                     item.RoomNumber = room.Number;
                     if (roles.Contains("MaterialPerson"))
                     {
-                        item.IsAprove = _aprovarRepository.GetAll().ToList().Where(i => i.InventoryBookId == item.InventoryBookId).All(i => i.IsAprove == true);
+                        item.IsAprove = _aprovarRepository.GetAll().ToList()
+                            .Where(i => i.InventoryBookId == item.InventoryBookId).All(i => i.IsAprove == true);
                     }
                 }
 
