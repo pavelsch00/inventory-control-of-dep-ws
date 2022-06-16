@@ -107,6 +107,7 @@ namespace inventory_control_of_dep_api.Controllers
                 model.Id = id;
                 model.DateOfIssue = model.DateOfIssue.ToUniversalTime();
                 model.WriteOffDate = model.WriteOffDate.ToUniversalTime();
+                model.IsActive = result.IsActive;
 
                 await _materialValueRepository.Update(model);
 
